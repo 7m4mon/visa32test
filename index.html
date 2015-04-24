@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta charset="utf-8" />
+  <title>NODE.JS INTERACTIVE IO</title>
+ </head>
+ <body>
+            <h1>NODE.JS INTERACTIVE IO</h1>
+            
+            <input type="text" id="visaaddress" value="GPIB0::22::INSTR" />
+            <input type="text" id="command" value="*IDN?" />
+            <button>SEND</button>
+            <h3>Receive Message</h3>
+            <script src="/socket.io/socket.io.js"></script>
+            <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+            <script>
+                var socket = io();
+                $('button').click(function(){
+                	var addr = $("#visaaddress").val();
+                	var cmd = $("#command").val();
+                	var msg = {
+					    addr : addr,  
+					    cmd : cmd  
+                		}
+                    socket.emit('sendmsg',msg);
+                });
+                socket.on('recvmsg',function(data){
+                    $('h3').text(data);
+                });
+                
+            </script>
+ </body>
+</html>
